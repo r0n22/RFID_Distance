@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Distancing_Algorithm.Code
 {
-    class Tag
+    public class Tag
     {
         public int Q;
         public int I;

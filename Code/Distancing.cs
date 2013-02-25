@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Distancing_Algorithm.Code
 {
-    class Distancing
+    public class Distancing
     {
         /*/// <summary>
         /// Using RSSI and a linear ap
@@ -45,7 +45,8 @@ namespace Distancing_Algorithm.Code
         public Distancing()
         {
             LookupTable = new List<Distance>();
-
+            /*
+             * Uneeded now that we have the DB.
             LookupTable.Add(new Distance() { Dist = 5, I = 7M, Q = 25.5M, NumberofReads = 8 });
             LookupTable.Add(new Distance() { Dist = 10, I = 28M, Q = 25.5652173913043M, NumberofReads = 46 });
             LookupTable.Add(new Distance() { Dist = 15, I = 17.5555555555556M, Q = 21.8888888888889M, NumberofReads = 18 });
@@ -83,8 +84,13 @@ namespace Distancing_Algorithm.Code
             //LookupTable.Add(new Distance() { Dist = 175, I = 0M, Q = 0M, NumberofReads = 1 });
             //LookupTable.Add(new Distance() { Dist = 180, I = 19.7333333333333M, Q = 18.1333333333333M, NumberofReads = 15 });
             //LookupTable.Add(new Distance() { Dist = 185, I = 9.2M, Q = 18M, NumberofReads = 5 });
-
+            */
             //Add in all Distance values here;
+        }
+
+        public Distancing(List<Distance> list)
+        {
+            LookupTable = list;
         }
 
         /// <summary>
