@@ -25,8 +25,9 @@ namespace Distancing_Algorithm.Code
             return RSSI;
         }*/
 
-        const decimal thresholdQ = 4M;
-        const decimal thresholdI = thresholdQ/3;
+        //const decimal thresholdQ = 4M;
+        //const decimal thresholdI = thresholdQ/3;
+        const decimal NumStdevations = 2;
         List<Distance> LookupTable;
         /// <summary>
         /// Class for Distancing
@@ -93,6 +94,21 @@ namespace Distancing_Algorithm.Code
             LookupTable = list;
         }
 
+        private double CalculateStdDev(IEnumerable<double> values)
+        {   
+          double ret = 0;
+          if (values.Count() > 0) 
+          {      
+             //Compute the Average      
+             double avg = values.Average();
+             //Perform the Sum of (value-avg)_2_2      
+             double sum = values.Sum(d => Math.Pow(d - avg, 2));
+             //Put it all together      
+             ret = Math.Sqrt((sum) / (values.Count()-1));   
+          }   
+          return ret;
+        }
+
         /// <summary>
         /// Returns a number of distances that we think the tag is at.
         /// </summary>
@@ -105,12 +121,13 @@ namespace Distancing_Algorithm.Code
             //find average of Q and I
             decimal AvgQ = Read_Values.Average(t => (decimal)t.Q);
             decimal AvgI = Read_Values.Average(t => (decimal)t.I);
-
+            decimal StdQ = (decimal)CalculateStdDev(Read_Values.Select(t => (double)t.Q));
+            decimal StdI = (decimal)CalculateStdDev(Read_Values.Select(t => (double)t.I));
             Console.WriteLine("AvgI:{0}, AvgQ:{1}", AvgI, AvgQ);
-
+            Console.WriteLine("StdI:{0}, stdQ:{1}", StdI, StdQ);
             //Find The Lookup table that the average Q is within the threshold of the Distance
             //Distance.AddRange(LookupTable.Where(r => Math.Abs(r.Q - AvgQ) < thresholdQ && Math.Abs(r.I - AvgI) < thresholdI).Select(r => r.Dist));
-            IEnumerable<Distance> temp = LookupTable.Where(r => Math.Abs(r.Q - AvgQ) < thresholdQ);
+            IEnumerable<Distance> temp = LookupTable.Where(r => Math.Abs(r.Q - AvgQ) < (StdQ*NumStdevations));
             Distance = temp.ToList();
             List<int> DistanceOut = new List<int>();
 
@@ -118,7 +135,7 @@ namespace Distancing_Algorithm.Code
             {
                 List<Distance> Distance2 = new List<Distance>();
 
-                IEnumerable<Distance> temp2 = Distance.Where(r => Math.Abs(r.I - AvgI) < thresholdI);
+                IEnumerable<Distance> temp2 = Distance.Where(r => Math.Abs(r.I - AvgI) < (StdI * NumStdevations));
                 Distance2 = temp2.ToList();
                 //List<decimal> tempI = new List<decimal>();
                 ////decimal [] tempI= new decimal[Distance.Count()];
