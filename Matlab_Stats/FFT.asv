@@ -1,10 +1,10 @@
 clear all; % clear all variables
 close all; % close all graphs
 clc % clear command window
-N = 16; % Number of records in each sample
+N = 32; % Number of records in each sample
 Remove_outliers = 0; %1 to remove outliers
-FFTCoe = 1;
-
+FFTCoe = 4;
+alpha = .05; %significance level
 length = 30;
 DataScript;
 cc=hsv(50);
@@ -23,15 +23,12 @@ for data=1:4
     if(data == 4)
         Data=importdata('HomeData4.mat');
     end
-    Qlist = [];
-    Ilist = [];
-    AllData = [];
 for i = 5:5:100
    
    
    AllData =  Data(Data(:,1) ==i,:,:);
-   Q = AllData(1:64,Q_COL);
-   I = AllData(1:64,I_COL);
+   Q = AllData(:,Q_COL);
+   I = AllData(:,I_COL);
 
    Correct_Count = 0;
    Count = 0;
@@ -54,18 +51,16 @@ for i = 5:5:100
         QPower =QPower + QLookup(i,fd)^2;
         IPower = IPower + QLookup(i,fd)^2;
     end
-    Qlist = [Qlist QLookup(i,1)];
-    Ilist = [Ilist ILookup(i,1)];
+    Qlist = [Qlist QPower];
+    Ilist = [Ilist IPower];
     
 end 
 figure;
-subplot(3,1,1), plot(Qlist,'color',cc(1,:));
+subplot(2,1,1), plot(Qlist,'color',cc(1,:));
 hold on;
-subplot(3,1,2), plot(Ilist,'color',cc(2,:));
+subplot(2,1,2), plot(Ilist,'color',cc(2,:));
 hold on;
-subplot(3,1,3), plot(Ilist,Qlist,'color',cc(3,:),'LineStyle','none','Marker','x');
-hold on;
-Error = [];
+
  for j = 1:N:size(Data,1)
     
     if(j+N > size(Data,1)||j+N > size(Data,1))
@@ -99,16 +94,14 @@ Error = [];
            Distance = k;
        end
     end
-    %fprintf('%g, %g, %g\n',CorrectDistance,Distance,MSETotal);
-    Error = [Error abs(CorrectDistance - Distance)];
-    if(abs(CorrectDistance - Distance) == 0)
+    fprintf('%g, %g, %g\n',CorrectDistance,Distance,MSETotal);
+    if(abs(CorrectDistance - Distance) < 15)
        Correct_Count = Correct_Count +1;
     end
     Count = Count + 1;
  end
 
-fprintf('Total Correct %g, Total Incorrect %g\n',Correct_Count/Count,1-(Correct_Count/Count));
-fprintf('Average Error %g, Error Std %g\n',mean(Error),std(Error));
+fprintf('Total Correct %g, Total Incorrect %g',Correct_Count/Count,1-(Correct_Count/Count));
 end
 
 % saveas(h,sprintf('%g_FFTQ',i),'jpg') 
