@@ -29,6 +29,9 @@ namespace Distancing_Algorithm.Code
 		
     #region Extensibility Method Definitions
     partial void OnCreated();
+    partial void InsertDistance_Measurements(Distance_Measurements instance);
+    partial void UpdateDistance_Measurements(Distance_Measurements instance);
+    partial void DeleteDistance_Measurements(Distance_Measurements instance);
     partial void InsertLookupData(LookupData instance);
     partial void UpdateLookupData(LookupData instance);
     partial void DeleteLookupData(LookupData instance);
@@ -58,11 +61,153 @@ namespace Distancing_Algorithm.Code
 			OnCreated();
 		}
 		
+		public System.Data.Linq.Table<Distance_Measurements> Distance_Measurements
+		{
+			get
+			{
+				return this.GetTable<Distance_Measurements>();
+			}
+		}
+		
 		public System.Data.Linq.Table<LookupData> LookupData
 		{
 			get
 			{
 				return this.GetTable<LookupData>();
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute()]
+	public partial class Distance_Measurements : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Exact_Measurements;
+		
+		private int _Avg_Measurement;
+		
+		private int _DFT_Measurement;
+		
+		private int _Id;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnExact_MeasurementsChanging(int value);
+    partial void OnExact_MeasurementsChanged();
+    partial void OnAvg_MeasurementChanging(int value);
+    partial void OnAvg_MeasurementChanged();
+    partial void OnDFT_MeasurementChanging(int value);
+    partial void OnDFT_MeasurementChanged();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    #endregion
+		
+		public Distance_Measurements()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Exact_Measurements", DbType="Int NOT NULL")]
+		public int Exact_Measurements
+		{
+			get
+			{
+				return this._Exact_Measurements;
+			}
+			set
+			{
+				if ((this._Exact_Measurements != value))
+				{
+					this.OnExact_MeasurementsChanging(value);
+					this.SendPropertyChanging();
+					this._Exact_Measurements = value;
+					this.SendPropertyChanged("Exact_Measurements");
+					this.OnExact_MeasurementsChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Avg_Measurement", DbType="Int NOT NULL")]
+		public int Avg_Measurement
+		{
+			get
+			{
+				return this._Avg_Measurement;
+			}
+			set
+			{
+				if ((this._Avg_Measurement != value))
+				{
+					this.OnAvg_MeasurementChanging(value);
+					this.SendPropertyChanging();
+					this._Avg_Measurement = value;
+					this.SendPropertyChanged("Avg_Measurement");
+					this.OnAvg_MeasurementChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DFT_Measurement", DbType="Int NOT NULL")]
+		public int DFT_Measurement
+		{
+			get
+			{
+				return this._DFT_Measurement;
+			}
+			set
+			{
+				if ((this._DFT_Measurement != value))
+				{
+					this.OnDFT_MeasurementChanging(value);
+					this.SendPropertyChanging();
+					this._DFT_Measurement = value;
+					this.SendPropertyChanged("DFT_Measurement");
+					this.OnDFT_MeasurementChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="id", Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
 		}
 	}

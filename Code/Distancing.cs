@@ -51,26 +51,8 @@ namespace Distancing_Algorithm.Code
             this.Type = Type;
            
         }
+
         
-        /// <summary>
-        /// Calculate the Std Devation
-        /// </summary>
-        /// <param name="values">List of values</param>
-        /// <returns></returns>
-        private double CalculateStdDev(IEnumerable<double> values)
-        {   
-          double ret = 0;
-          if (values.Count() > 0) 
-          {      
-             //Compute the Average      
-             double avg = values.Average();
-             //Perform the Sum of (value-avg)_2_2      
-             double sum = values.Sum(d => Math.Pow(d - avg, 2));
-             //Put it all together      
-             ret = Math.Sqrt((sum) / (values.Count()-1));   
-          }   
-          return ret;
-        }
 
         /// <summary>
         /// Returns a number of distances that we think the tag is at.
@@ -84,8 +66,8 @@ namespace Distancing_Algorithm.Code
             //find average of Q and I
             decimal AvgQ = Read_Values.Average(t => (decimal)t.Q);
             decimal AvgI = Read_Values.Average(t => (decimal)t.I);
-            decimal StdQ = (decimal)CalculateStdDev(Read_Values.Select(t => (double)t.Q));
-            decimal StdI = (decimal)CalculateStdDev(Read_Values.Select(t => (double)t.I));
+            decimal StdQ = (decimal)Mathextend.CalculateStdDev(Read_Values.Select(t => (double)t.Q));
+            decimal StdI = (decimal)Mathextend.CalculateStdDev(Read_Values.Select(t => (double)t.I));
             Console.WriteLine("AvgI:{0}, AvgQ:{1}", AvgI, AvgQ);
             Console.WriteLine("StdI:{0}, stdQ:{1}", StdI, StdQ);
             //Find The Lookup table that the average Q is within the threshold of the Distance

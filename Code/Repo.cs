@@ -79,5 +79,42 @@ namespace Distancing_Algorithm.Code
             }
             return Output;
         }
+
+        public void AddMeasurement(int Distance, int Avg_Distance, int DFT_Distance)
+        {
+            this.Distance_Measurements.InsertOnSubmit(new Distance_Measurements()
+            {
+                Exact_Measurements = Distance,
+                Avg_Measurement = Avg_Distance,
+                DFT_Measurement = DFT_Distance
+            });
+            this.SubmitChanges();
+        }
+
+        public double Get_Percetnage_Correct_Average(int Distance)
+        {
+            return (double)this.Distance_Measurements.Where(d => d.Exact_Measurements.Equals(Distance) && d.Avg_Measurement.Equals(Distance)).Count() / this.Distance_Measurements.Where(d => d.Exact_Measurements.Equals(Distance)).Count();
+        }
+        public double Get_Percetnage_Correct_DFT(int Distance)
+        {
+            return (double)this.Distance_Measurements.Where(d => d.Exact_Measurements.Equals(Distance) && d.DFT_Measurement.Equals(Distance)).Count() / this.Distance_Measurements.Where(d => d.Exact_Measurements.Equals(Distance)).Count();
+        }
+
+        public double Get_Average_Error_DFT(int Distance)
+        {
+            return (double)this.Distance_Measurements.Where(d => d.Exact_Measurements.Equals(Distance)).Select(d => Math.Abs(d.Exact_Measurements - d.DFT_Measurement)).Average();
+        }
+        public double Get_Average_Error_AVG(int Distance)
+        {
+            return (double)this.Distance_Measurements.Where(d => d.Exact_Measurements.Equals(Distance)).Select(d => Math.Abs(d.Exact_Measurements - d.Avg_Measurement)).Average();
+        }
+        public double Get_STD_Error_AVG(int Distance)
+        {
+            return Mathextend.CalculateStdDev(this.Distance_Measurements.Where(d => d.Exact_Measurements.Equals(Distance)).Select(d => (double)Math.Abs(d.Exact_Measurements - d.Avg_Measurement)));
+        }
+        public double Get_STD_Error_DFT(int Distance)
+        {
+            return Mathextend.CalculateStdDev(this.Distance_Measurements.Where(d => d.Exact_Measurements.Equals(Distance)).Select(d => (double)Math.Abs(d.Exact_Measurements - d.DFT_Measurement)));
+        }
     }
 }

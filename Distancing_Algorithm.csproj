@@ -74,6 +74,7 @@
       <DependentUpon>Lookup.dbml</DependentUpon>
     </Compile>
     <Compile Include="Code\LookupData.cs" />
+    <Compile Include="Code\Mathextend.cs" />
     <Compile Include="Code\Repo.cs" />
     <Compile Include="Code\Tag.cs" />
     <Compile Include="Program.cs" />

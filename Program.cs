@@ -162,6 +162,7 @@ namespace Distancing_Algorithm
 
         private static void Start_Automatic_Error_Checking(LookupTable Lookup, ComPort Reader1)
         {
+            int Number_of_iterations = 100;
             List<Tag> Tags;
             //Start Distance of the configuration
             int Distance = Distance_Start;
@@ -174,38 +175,61 @@ namespace Distancing_Algorithm
             Console.ReadKey(true);
             while (Distance <= Distance_End)
             {
-
-                List<Tag> ListRead = new List<Tag>();
-                while (ListRead.Count < Configutation_num_reads)
+                //Number of times to try the reading
+                for (int i = 0; i < Number_of_iterations; i++)
                 {
-                    //Seach for tags with RSSI
-                    Tags = Inventory.StartTagInventory(Reader1);
+                    List<Tag> ListRead = new List<Tag>();
+                    while (ListRead.Count < Configutation_num_reads)
+                    {
+                        //Seach for tags with RSSI
+                        Tags = Inventory.StartTagInventory(Reader1);
 
-                    //if more then 1 tag found and does not contain SHIT
-                    //Then we read the tag and increment Read
-                    if (Tags.Count > 0)
-                        if (!Tags[0].ID.Contains("SHIT"))
-                        {
-                            ListRead.Add(Tags[0]);
-                            Console.WriteLine("I:{0}, Q:{1}", Tags[0].I, Tags[0].Q);
-                        }
-                    //Sleep thread to get accurate measurements each time
-                    //Has to be adjusted so we do not overflow the reader
-                    // Console.WriteLine("Attempt:{0}",iter);
-                    //System.Threading.Thread.Sleep(SleepTimer);
+                        //if more then 1 tag found and does not contain SHIT
+                        //Then we read the tag and increment Read
+                        if (Tags.Count > 0)
+                            if (!Tags[0].ID.Contains("SHIT"))
+                            {
+                                ListRead.Add(Tags[0]);
+                                Console.WriteLine("I:{0}, Q:{1}", Tags[0].I, Tags[0].Q);
+                            }
+                        //Sleep thread to get accurate measurements each time
+                        //Has to be adjusted so we do not overflow the reader
+                        // Console.WriteLine("Attempt:{0}",iter);
+                        //System.Threading.Thread.Sleep(SleepTimer);
+                    }
+
+                    List<int> Distance_Avg = AVG.Find_Distance(ListRead);
+                    List<int> Distance_DFT = AVG.Find_Distance(ListRead);
+                    if (Distance_Avg.Count == 1 && Distance_DFT.Count == 1)
+                    {
+                        Lookup.AddMeasurement(Distance, Distance_Avg.First(), Distance_DFT.First());
+                    }
+                    else
+                    {
+                        Console.WriteLine("One of the methods returned more then one result");
+                    }
                 }
-
-                List<int> Distance_Avg = AVG.Find_Distance(ListRead);
-                List<int> Distance_DFT = AVG.Find_Distance(ListRead);
-                if (Distance_Avg.Count == 1 && Distance_DFT.Count == 1)
-                {
-
-                }
+                
                 //Increment Distance
                 Distance += Distance_Interval;
                 Console.WriteLine("Please put tag at {0}cm then press enter", Distance);
                 Console.ReadKey(true);
 
+            }
+            Distance = Distance_Start;
+            Console.WriteLine("PRINTING RESULTS:");
+            while (Distance <= Distance_End)
+            {
+                Console.WriteLine("Distance:{0}", Distance);
+                Console.WriteLine("Avg Algorithm (Correct,Avg Error,Error Std) ({0:0.0%},{1},{2})", 
+                    Lookup.Get_Percetnage_Correct_Average(Distance), 
+                    Lookup.Get_Average_Error_AVG(Distance), 
+                    Lookup.Get_STD_Error_AVG(Distance));
+                Console.WriteLine("DFT Algorithm (Correct,Avg Error,Error Std) ({0:0.0%},{1},{2})",
+                    Lookup.Get_Percetnage_Correct_DFT(Distance),
+                    Lookup.Get_Average_Error_DFT(Distance),
+                    Lookup.Get_STD_Error_DFT(Distance));
+                Distance += Distance_Interval;
             }
         }
     }
