@@ -12,7 +12,7 @@ namespace Distancing_Algorithm
         public static int Iterations = 50;
         public static int SleepTimer = 80;
         public static int Distance_Start = 5;
-        public static int Distance_End = 100;
+        public static int Distance_End = 75;
         public static int Distance_Interval = 5;
         public static int Configutation_num_reads = 100;
         static void Rebuild_Lookup_Table(LookupTable Lookup, ComPort Reader1)
@@ -136,7 +136,7 @@ namespace Distancing_Algorithm
             }
             
             //Create Com Port To talk to reader
-            ComPort Reader1 = new ComPort("COM4");
+            ComPort Reader1 = new ComPort("COM7");
             Reader1.Open();
             //Power on Antenna
             //Initialization.PowerOn(Reader1);
@@ -162,7 +162,7 @@ namespace Distancing_Algorithm
 
         private static void Start_Automatic_Error_Checking(LookupTable Lookup, ComPort Reader1)
         {
-            int Number_of_iterations = 100;
+            int Number_of_iterations = 20;
             List<Tag> Tags;
             //Start Distance of the configuration
             int Distance = Distance_Start;
@@ -170,11 +170,12 @@ namespace Distancing_Algorithm
             Distancing AVG = new Distancing(LookupTable.DistanceType.AVG, Lookup);
             Distancing DFT = new Distancing(LookupTable.DistanceType.DFT, Lookup);
             
-            Console.WriteLine("Please put tag at {0}cm then press enter", Distance);
-            //Pause for setup
-            Console.ReadKey(true);
+           
             while (Distance <= Distance_End)
             {
+                Console.WriteLine("Please put tag at {0}cm then press enter", Distance);
+                //Pause for setup
+                Console.ReadKey(true);
                 //Number of times to try the reading
                 for (int i = 0; i < Number_of_iterations; i++)
                 {
@@ -199,22 +200,21 @@ namespace Distancing_Algorithm
                     }
 
                     List<int> Distance_Avg = AVG.Find_Distance(ListRead);
-                    List<int> Distance_DFT = AVG.Find_Distance(ListRead);
+                    List<int> Distance_DFT = DFT.Find_Distance(ListRead);
                     if (Distance_Avg.Count == 1 && Distance_DFT.Count == 1)
                     {
                         Lookup.AddMeasurement(Distance, Distance_Avg.First(), Distance_DFT.First());
+                        Console.WriteLine("Added Results to the DB iteration:{0} for Distance:{1}", Iterations, Distance);
                     }
                     else
                     {
                         Console.WriteLine("One of the methods returned more then one result");
                     }
-                }
+               }
                 
                 //Increment Distance
                 Distance += Distance_Interval;
-                Console.WriteLine("Please put tag at {0}cm then press enter", Distance);
-                Console.ReadKey(true);
-
+                
             }
             Distance = Distance_Start;
             Console.WriteLine("PRINTING RESULTS:");

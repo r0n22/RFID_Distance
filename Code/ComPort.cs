@@ -14,7 +14,7 @@ namespace Distancing_Algorithm.Code
     {
         SerialPort sp;
 
-        public ComPort() :this("COM4")
+        public ComPort() :this("COM7")
         {
             
         }

@@ -117,7 +117,7 @@ namespace Distancing_Algorithm.Code
                             best = reads.NumberofReads;
                         }
                     }
-                    DistanceOut.AddRange(Distance2.Where(r => best == r.NumberofReads).Select(r => r.Dist));
+                    DistanceOut.Add(Distance2.Where(r => best == r.NumberofReads).Select(r => r.Dist).FirstOrDefault());
 
                     return DistanceOut;
                 }
@@ -157,9 +157,9 @@ namespace Distancing_Algorithm.Code
             foreach (Distance d in LookupDistances)
             {
                 double MSE = Math.Pow((double)(d.I - DFTI[0]), 2) + Math.Pow((double)(d.Q - DFTQ[0]), 2);
-                Console.WriteLine("Distance is {0}", d.Dist);
+                /*Console.WriteLine("Distance is {0}", d.Dist);
                 Console.WriteLine("(LookupI, I)({0}，{1})", d.I, DFTI[0]);
-                Console.WriteLine("(LookupQ, Q)({0}，{1})", d.Q, DFTQ[0]);
+                Console.WriteLine("(LookupQ, Q)({0}，{1})", d.Q, DFTQ[0]);*/
                 if (MSE < LowestMSE)
                 {
                     Distance = d;
