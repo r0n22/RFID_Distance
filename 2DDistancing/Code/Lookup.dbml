@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Database Name="LookupTable" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Table Name="Distance_Measurements">
+    <Type Name="Distance_Measurements">
+      <Column Name="Exact_Measurements" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Avg_Measurement" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="DFT_Measurement" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="id" Member="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="LookupData">
+    <Type Name="LookupData">
+      <Column Name="id" Member="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="distance" Member="Distance" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Q" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="I" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="TagAssocation">
+    <Type Name="TagAssocation">
+      <Column Name="id" Member="Id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Tag_id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Tag_value" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+</Database>
