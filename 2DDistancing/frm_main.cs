@@ -24,15 +24,36 @@ namespace _2DDistancing
 
         private void btn_create_grid_Click(object sender, EventArgs e)
         {
-            
+            Random rand = new Random();
             Form_Data.Create_Grid(this.pB_Layout.CreateGraphics(), this.pB_Layout.Size);
-            Form_Data.AddTag1(this.pB_Layout.CreateGraphics(), 2, 4, this.pB_Layout.Size);
-            Form_Data.AddTag2(this.pB_Layout.CreateGraphics(), 4, 2, this.pB_Layout.Size);
+            Form_Data.AddTag1(this.pB_Layout.CreateGraphics(), rand.Next(10), rand.Next(10), this.pB_Layout.Size);
+            Form_Data.AddTag2(this.pB_Layout.CreateGraphics(), rand.Next(10), rand.Next(10), this.pB_Layout.Size);
         }
 
         private void btn_startInitalization_Click(object sender, EventArgs e)
         {
             D.Start_Initaliztion(); 
+        }
+
+        private void btt_findTag_Click(object sender, EventArgs e)
+        {
+            //Read Tags
+            List<TagFound> Tags = D.ReadTags();
+            //Create Grid
+            Form_Data.Create_Grid(this.pB_Layout.CreateGraphics(), this.pB_Layout.Size);
+            //Find Tag 1 and Display it
+            TagFound T1 = Tags.SingleOrDefault(t => t.ID.Equals(1));
+            if (T1.ID.Equals(1))
+            {
+                Form_Data.AddTag1(this.pB_Layout.CreateGraphics(), T1.X, T1.Y, this.pB_Layout.Size);
+            }
+            //Find Tag 2 and Display it
+            TagFound T2 = Tags.SingleOrDefault(t => t.ID.Equals(2));
+            if (T2.ID.Equals(2))
+            {
+                Form_Data.AddTag2(this.pB_Layout.CreateGraphics(), T2.X, T2.Y, this.pB_Layout.Size);
+            }
+            
         }
 
     }

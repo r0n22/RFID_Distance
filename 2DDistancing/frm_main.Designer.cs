@@ -53,6 +53,7 @@
             this.btt_findTag.TabIndex = 1;
             this.btt_findTag.Text = "Find Tag";
             this.btt_findTag.UseVisualStyleBackColor = true;
+            this.btt_findTag.Click += new System.EventHandler(this.btt_findTag_Click);
             // 
             // pB_Layout
             // 

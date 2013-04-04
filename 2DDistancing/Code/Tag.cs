@@ -54,7 +54,7 @@ namespace _2DDistancing.Code
         }
 
         public int ID { get { return this.id; } }
-        public int X { get { return this.x; } set; }
-        public int Y { get { return this.y; } set; }
+        public int X { get { return this.x; }  }
+        public int Y { get { return this.y; }  }
     }
 }

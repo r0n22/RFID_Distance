@@ -18,6 +18,7 @@ namespace _2DDistancing.Code
 
         public LookupData(Tag r, int Distance_2, LookupTable.Axis axis):this(r,Distance_2)
         {
+            
             this.Reciver = (int)axis;
         }
 

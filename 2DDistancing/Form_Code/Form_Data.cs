@@ -186,18 +186,43 @@ namespace _2DDistancing.Form_Code
                 // Console.WriteLine("Attempt:{0}",iter);
                 //System.Threading.Thread.Sleep(SleepTimer);
             }
+            //Pull Tag data to into the diffrent lists
+            List<Tag> x_Tag1 = ListRead_X.Where(t => Data.Return_Tag_ID(t.ID).Equals(1)).ToList();
+            List<Tag> x_Tag2 = ListRead_X.Where(t => Data.Return_Tag_ID(t.ID).Equals(2)).ToList();
 
-            List<int> Distance_Avg = AVG.Find_Distance(ListRead);
-            List<int> Distance_DFT = DFT.Find_Distance(ListRead);
-            if (Distance_Avg.Count == 1 && Distance_DFT.Count == 1)
+            List<Tag> y_Tag1 = ListRead_Y.Where(t => Data.Return_Tag_ID(t.ID).Equals(1)).ToList();
+            List<Tag> y_Tag2 = ListRead_Y.Where(t => Data.Return_Tag_ID(t.ID).Equals(2)).ToList();
+
+            List<TagFound> List_of_tags = new List<TagFound>();
+            //Do the calculations
+            //only do the calculations if there are tag reads
+            if (y_Tag1.Count > 0 && x_Tag1.Count > 0)
             {
-                Lookup.AddMeasurement(Distance, Distance_Avg.First(), Distance_DFT.First());
-                Console.WriteLine("Added Results to the DB iteration:{0} for Distance:{1}", Iterations, Distance);
+                List<int> x_Tag1_DFT = x_DFT.Find_Distance(x_Tag1);
+                List<int> y_Tag1_DFT = y_DFT.Find_Distance(y_Tag1);
+                if (x_Tag1_DFT.Count == 1 && y_Tag1_DFT.Count == 1)
+                {
+                    int xpos = (x_Tag1_DFT[0] - x_start) / x_interval;
+                    int ypos = (y_Tag1_DFT[0] - y_start) / y_interval;
+                    List_of_tags.Add(new TagFound(1, xpos, ypos));
+                }
+
             }
-            else
+            //only do the calculations if there are tag reads
+            if(y_Tag2.Count >0 && x_Tag2.Count >0)
             {
-                Console.WriteLine("One of the methods returned more then one result");
+                List<int> x_Tag2_DFT = x_DFT.Find_Distance(x_Tag2);
+                List<int> y_Tag2_DFT = y_DFT.Find_Distance(y_Tag2);
+                if (x_Tag2_DFT.Count == 1 && y_Tag2_DFT.Count == 1)
+                {
+                    int xpos = (x_Tag2_DFT[0] - x_start) / x_interval;
+                    int ypos = (y_Tag2_DFT[0] - y_start) / y_interval;
+                    List_of_tags.Add(new TagFound(2, xpos, ypos));
+                }
             }
+            
+            return List_of_tags;
+
         }
 
         #endregion

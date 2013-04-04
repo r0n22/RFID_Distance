@@ -38,14 +38,14 @@ namespace _2DDistancing.Code
             this.SubmitChanges();
         }
 
-        public List<Distancing.Distance> GetLookupTable_AVG(Axis axis)
+       /* public List<Distancing.Distance> GetLookupTable_AVG(Axis axis)
         {
             List<Distancing.Distance> Output = new List<Distancing.Distance>();
             //this pulls a distinct list of the distance points in the DB
             foreach (int Dist in this.LookupData.Select(d => d.Distance).Distinct())
             {
-                decimal AvgI = (decimal)this.LookupData.Where(d => d.Distance.Equals(Dist)&& d.reciver.equals((int)axis)).Select(d => d.I).Average();
-                decimal AvgQ = (decimal)this.LookupData.Where(d => d.Distance.Equals(Dist)&& d.reciver.equals((int)axis).Select(d => d.Q).Average();
+                //decimal AvgI = (decimal)this.LookupData.Where(d => d.Distance.Equals(Dist)&& d.reciver.equals((int)axis)).Select(d => d.I).Average();
+                //decimal AvgQ = (decimal)this.LookupData.Where(d => d.Distance.Equals(Dist)&& d.reciver.equals((int)axis)).Select(d => d.Q).Average();
                 int count = this.LookupData.Where(d => d.Distance.Equals(Dist)).Count();
                 Output.Add(new Distancing.Distance()
                 {
@@ -57,23 +57,25 @@ namespace _2DDistancing.Code
             }
             return Output;
         }
-
+        */
         public List<Distancing.Distance> GetLookupTable(DistanceType Type,Axis axis)
         {
-            if (Type.Equals(DistanceType.AVG))
+           /* if (Type.Equals(DistanceType.AVG))
                 return GetLookupTable_AVG(axis);
             else
                 return GetLookupTable_DFT(axis);
+            */
+            return new List<Distancing.Distance>();
         }
 
-        public List<Distancing.Distance> GetLookupTable_DFT(Axis axis)
+        /*public List<Distancing.Distance> GetLookupTable_DFT(Axis axis)
         {
             List<Distancing.Distance> Output = new List<Distancing.Distance>();
             //this pulls a distinct list of the distance points in the DB
             foreach (int Dist in this.LookupData.Select(d => d.Distance).Distinct())
             {
-                decimal[] DFTI = DFT.Transform(this.LookupData.Where(d => d.Distance.Equals(Dist)&& d.reciver.equals((int)axis).Select(d => d.I).ToArray());
-                decimal[] DFTQ = DFT.Transform(this.LookupData.Where(d => d.Distance.Equals(Dist)&& d.reciver.equals((int)axis).Select(d => d.Q).ToArray());
+                decimal[] DFTI = DFT.Transform(this.LookupData.Where(d => d.Distance.Equals(Dist)&& d.reciver.equals((int)axis)).Select(d => d.I).ToArray());
+                decimal[] DFTQ = DFT.Transform(this.LookupData.Where(d => d.Distance.Equals(Dist)&& d.reciver.equals((int)axis)).Select(d => d.Q).ToArray());
                 int count = this.LookupData.Where(d => d.Distance.Equals(Dist)).Count();
                 Output.Add(new Distancing.Distance()
                 {
@@ -84,7 +86,7 @@ namespace _2DDistancing.Code
                 });
             }
             return Output;
-        }
+        }*/
 
         public void AddMeasurement(int Distance, int Avg_Distance, int DFT_Distance)
         {
