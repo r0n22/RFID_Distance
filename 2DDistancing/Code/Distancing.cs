@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Distancing_Algorithm.Code;
+using _2DDistancing.Form_Code;
 
-namespace Distancing_Algorithm.Code
+namespace _2DDistancing.Code
 {
     public class Distancing
     {
@@ -45,9 +45,9 @@ namespace Distancing_Algorithm.Code
         /// <summary>
         /// Constructor with default Lookup Table
         /// </summary>
-        public Distancing(LookupTable.DistanceType Type, LookupTable Lookup)
+        public Distancing(LookupTable.DistanceType Type, LookupTable Lookup,LookupTable.Axis Axis)
         {
-            LookupDistances = Lookup.GetLookupTable(Type);
+            LookupDistances = Lookup.GetLookupTable(Type, Axis);
             this.Type = Type;
            
         }

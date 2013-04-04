@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO.Ports;
-using Distancing_Algorithm;
 
 
-namespace Distancing_Algorithm.Code
+namespace _2DDistancing.Code
 {
     
 

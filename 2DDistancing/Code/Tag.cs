@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Distancing_Algorithm.Code
+namespace _2DDistancing.Code
 {
     public class Tag
     {
@@ -38,5 +38,23 @@ namespace Distancing_Algorithm.Code
         }
 
        
+    }
+
+    public class TagFound
+    {
+        private int x;
+        private int y;
+        private int id;
+        public TagFound(int ID, int x, int y)
+        {
+            this.id = ID;
+            this.x = x;
+            this.y = y;
+
+        }
+
+        public int ID { get { return this.id; } }
+        public int X { get { return this.x; } set; }
+        public int Y { get { return this.y; } set; }
     }
 }

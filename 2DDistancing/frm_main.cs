@@ -13,9 +13,11 @@ namespace _2DDistancing
 {
     public partial class frm_main : Form
     {
+        Form_Data D = new Form_Data();
         public frm_main()
         {
             InitializeComponent();
+            D.Init();
         }
 
        
@@ -30,7 +32,7 @@ namespace _2DDistancing
 
         private void btn_startInitalization_Click(object sender, EventArgs e)
         {
-            Form_Data.Start_Initaliztion();
+            D.Start_Initaliztion(); 
         }
 
     }

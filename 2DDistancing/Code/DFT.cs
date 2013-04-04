@@ -5,7 +5,7 @@ using System.Text;
 
 using AForge.Math;
 
-namespace Distancing_Algorithm.Code
+namespace _2DDistancing.Code
 {
 
     public class DFT

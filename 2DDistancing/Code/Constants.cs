@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Distancing_Algorithm.Code
+namespace _2DDistancing.Code
 {
     public static class Constants
     {
