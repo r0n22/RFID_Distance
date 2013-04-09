@@ -3,7 +3,7 @@ using System;
 using System.Linq;
 using System.Text;
 
-namespace _2DDistancing.Code
+namespace _1DDistancing.Code
 {
     partial class LookupTable
     {
@@ -18,10 +18,10 @@ namespace _2DDistancing.Code
         /// </summary>
         /// <param name="Distance">Distance of tags in cm</param>
         /// <param name="TagList">List of the tags</param>
-        public void Add_Tags(int Distance, List<Tag> TagList, Axis axis)
+        public void Add_Tags(int Distance, List<Tag> TagList)
         {
             
-            List<LookupData> ConvertedData = TagList.ConvertAll(r => new LookupData(r, Distance,axis));
+            List<LookupData> ConvertedData = TagList.ConvertAll(r => new LookupData(r, Distance));
 
             this.LookupData.InsertAllOnSubmit(ConvertedData);
 
@@ -58,24 +58,21 @@ namespace _2DDistancing.Code
             return Output;
         }
         */
-        public List<Distancing.Distance> GetLookupTable(DistanceType Type,Axis axis)
+        public List<Distancing.Distance> GetLookupTable(DistanceType Type)
         {
-           /* if (Type.Equals(DistanceType.AVG))
-                return GetLookupTable_AVG(axis);
-            else
-                return GetLookupTable_DFT(axis);
-            */
-            return new List<Distancing.Distance>();
+
+                return GetLookupTable_DFT();
+            
         }
 
-        /*public List<Distancing.Distance> GetLookupTable_DFT(Axis axis)
+        public List<Distancing.Distance> GetLookupTable_DFT()
         {
             List<Distancing.Distance> Output = new List<Distancing.Distance>();
             //this pulls a distinct list of the distance points in the DB
             foreach (int Dist in this.LookupData.Select(d => d.Distance).Distinct())
             {
-                decimal[] DFTI = DFT.Transform(this.LookupData.Where(d => d.Distance.Equals(Dist)&& d.reciver.equals((int)axis)).Select(d => d.I).ToArray());
-                decimal[] DFTQ = DFT.Transform(this.LookupData.Where(d => d.Distance.Equals(Dist)&& d.reciver.equals((int)axis)).Select(d => d.Q).ToArray());
+                decimal[] DFTI = DFT.Transform(this.LookupData.Where(d => d.Distance.Equals(Dist)).Select(d => d.I).ToArray());
+                decimal[] DFTQ = DFT.Transform(this.LookupData.Where(d => d.Distance.Equals(Dist)).Select(d => d.Q).ToArray());
                 int count = this.LookupData.Where(d => d.Distance.Equals(Dist)).Count();
                 Output.Add(new Distancing.Distance()
                 {
@@ -86,7 +83,7 @@ namespace _2DDistancing.Code
                 });
             }
             return Output;
-        }*/
+        }
 
         public void AddMeasurement(int Distance, int Avg_Distance, int DFT_Distance)
         {
@@ -126,36 +123,8 @@ namespace _2DDistancing.Code
             return Mathextend.CalculateStdDev(this.Distance_Measurements.Where(d => d.Exact_Measurements.Equals(Distance)).Select(d => (double)Math.Abs(d.Exact_Measurements - d.DFT_Measurement)));
         }
 
-        internal void AddTagAssocation()
-        {
-           List<TagAssocation> tags = new System.Collections.Generic.List<TagAssocation>();
-           //Tag group 1
-           tags.Add(new TagAssocation(){
-               Tag_id=1,
-               Tag_value="first"
-           });
-            tags.Add(new TagAssocation(){
-               Tag_id=1,
-               Tag_value="2nd"
-           });
-            //Tag group 2
-            tags.Add(new TagAssocation(){
-               Tag_id=2,
-               Tag_value="fourth"
-           });
-            tags.Add(new TagAssocation(){
-               Tag_id=2,
-               Tag_value="third"
-           });
-            //Only add them if they have not been added yet
-            if(this.TagAssocation.Count() < 4)
-                this.TagAssocation.InsertAllOnSubmit(tags);
-            this.SubmitChanges();
-        }
+        
 
-        internal int Return_Tag_ID(string ID)
-        {
-            return this.TagAssocation.SingleOrDefault(t => t.Tag_value.Equals(ID)).Tag_id;
-        }
+       
     }
 }
